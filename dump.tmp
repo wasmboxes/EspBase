@@ -1,0 +1,223 @@
+// Convert ip address to string
+// if (source_addr.ss_family == PF_INET) {
+//     inet_ntoa_r(((struct sockaddr_in *)&source_addr)->sin_addr, addr_str, sizeof(addr_str) - 1);
+// }
+// ESP_LOGI(TAG, "Socket accepted ip address: %s", addr_str);
+
+
+    // M3Result result = m3Err_none;
+
+    // uint8_t* wasm = (uint8_t*)fib32_wasm;
+    // uint32_t fsize = fib32_wasm_len;
+    // #define FATAL(msg, ...) { printf("Fatal: " msg "\n", ##__VA_ARGS__); vTaskDelay(90000 / portTICK_PERIOD_MS); }
+
+    // printf("Loading WebAssembly...\n");
+    // IM3Environment env = m3_NewEnvironment ();
+    // if (!env) FATAL("m3_NewEnvironment failed");
+
+    // IM3Runtime runtime = m3_NewRuntime (env, 1024, NULL);
+    // if (!runtime) FATAL("m3_NewRuntime failed");
+
+    // IM3Module module;
+    // result = m3_ParseModule (env, &module, wasm, fsize);
+    // if (result) FATAL("m3_ParseModule: %s", result);
+
+    // result = m3_LoadModule (runtime, module);
+    // if (result) FATAL("m3_LoadModule: %s", result);
+
+    // IM3Function f;
+    // result = m3_FindFunction (&f, runtime, "fib");
+    // if (result) FATAL("m3_FindFunction: %s", result);
+
+    // printf("Running...\n");
+
+    // result = m3_CallV(f, 4);
+    // if (result) FATAL("m3_Call: %s", result);
+
+    // unsigned value = 0;
+    // result = m3_GetResultsV (f, &value);
+    // if (result) FATAL("m3_GetResults: %s", result);
+
+    // printf("Result: %u\n", value);
+
+
+    // WasmController::WasmController* c_ws = new WasmController::WasmController();
+    // // WasmController::WasmSandbox* box = c_ws->SandboxCreate(app_wasm, app_wasm_len, "Test");
+    // // c_ws->SandboxAdd(box);
+    // // c_ws->SandboxLinkRawFuntion(box->id, m3_arduino_millis, "Test", "millis", "i()");
+    // // c_ws->SandboxLinkRawFuntion(box->id, m3_arduino_delay, "Test", "delay", "v(i)");
+    // // c_ws->SandboxLinkRawFuntion(box->id, m3_arduino_pinMode, "Test", "pinMode", "v(ii)");
+    // // c_ws->SandboxLinkRawFuntion(box->id, m3_arduino_digitalWrite, "Test", "digitalWrite", "v(ii)");
+    // // c_ws->SandboxLinkRawFuntion(box->id, m3_arduino_getPinLED, "Test", "getPinLED", "i()");
+    // // c_ws->SandboxLinkRawFuntion(box->id, m3_arduino_print, "Test", "print",  "v(*i)");
+    // #define module_name "Test"
+
+    // M3Result result = m3Err_none;
+    // IM3Environment env = m3_NewEnvironment ();
+    // IM3Runtime runtime = m3_NewRuntime (env, WASM_STACK_SLOTS, NULL);
+    // #ifdef WASM_MEMORY_LIMIT
+    //     runtime->memoryLimit = WASM_MEMORY_LIMIT;
+    // #endif
+    // IM3Module module;
+    
+    // result = m3_ParseModule (env, &module, (uint8_t*)app_wasm, app_wasm_len);
+    // if(result) ESP_LOGI("MAIN","Parse Module error");
+    
+    // // ESP_LOGI(TAG,"Parsed Module result : %c", (*result));
+
+    
+    // result = m3_LoadModule (runtime, module);
+    // if(result) ESP_LOGI("MAIN","Load Module error");
+    
+    // // ESP_LOGI(TAG,"Loaded Module result : %c", (*result));
+    // // WasmController::WasmSandbox* box = new WasmController::WasmSandbox();
+
+    // // box->moduleName = module_name;
+    // // box->env = env;
+    // // box->id = 0;
+    // // box->runtime = runtime;
+    // // box->module = module;
+
+    // result = m3_LinkRawFunction (module, module_name, "millis",           "i()",    &m3_arduino_millis);
+    // if(result) ESP_LOGI("MAIN","Link Function error");
+    // result = m3_LinkRawFunction (module, module_name, "delay",            "v(i)",   &m3_arduino_delay);
+    // if(result) ESP_LOGI("MAIN","Link Function error");
+    // result = m3_LinkRawFunction (module, module_name, "pinMode",          "v(ii)",  &m3_arduino_pinMode);
+    // if(result) ESP_LOGI("MAIN","Link Function error");
+    // result = m3_LinkRawFunction (module, module_name, "digitalWrite",     "v(ii)",  &m3_arduino_digitalWrite);
+    // if(result) ESP_LOGI("MAIN","Link Function error");
+    // result = m3_LinkRawFunction (module, module_name, "getPinLED",        "i()",    &m3_arduino_getPinLED);
+    // if(result) ESP_LOGI("MAIN","Link Function error");
+    // result = m3_LinkRawFunction (module, module_name, "print",            "v(*i)",  &m3_arduino_print);
+    // if(result) ESP_LOGI("MAIN","Link Function error");
+
+    // IM3Function f;
+    // result = m3_FindFunction (&f, runtime, "_start");
+    // if (result) ESP_LOGI("MAIN","Find Function error");
+    // result = m3_CallV (f);
+    // if (result) ESP_LOGI("MAIN","Call Function error");
+
+    // // printf("Function Found : %d\n", c_ws->SandboxHasFunction(box->id, "_start"));
+
+    // // printf("Function called : %s\n", c_ws->SandboxCallFunction(box->id, "_start"));
+    // c_hw->preferencesController->ResetToDefault();
+    
+    // run_wasm();
+    
+    // int resp = 0;
+    // resp = c_pf->ExistsStr(Preferences_::ESP_WIFI_PASSWORD);
+    // printf(" Resp : %d\n", resp);
+
+
+    // if (!env) FATAL("NewEnvironment", "failed");
+
+    // esp_log_level_set("*", ESP_LOG_VERBOSE);        // set all components to ERROR level
+    // // esp_vfs_dev_uart_use_driver(CONFIG_ESP_CONSOLE_UART_NUM); // ESP krepa
+    // esp_vfs_dev_uart_port_set_rx_line_endings(CONFIG_ESP_CONSOLE_UART_NUM, ESP_LINE_ENDINGS_CR);
+    // esp_vfs_dev_uart_port_set_tx_line_endings(CONFIG_ESP_CONSOLE_UART_NUM, ESP_LINE_ENDINGS_CRLF);
+
+    // esp_chip_info_t chip_info;
+    // esp_chip_info(&chip_info);
+    // printf("This is %s chip with %d CPU core(s), WiFi%s%s, ",
+    //         CONFIG_IDF_TARGET,
+    //         chip_info.cores,
+    //         (chip_info.features & CHIP_FEATURE_BT) ? "/BT" : "",
+    //         (chip_info.features & CHIP_FEATURE_BLE) ? "/BLE" : "");
+    // printf("silicon revision %d, ", chip_info.revision);
+    // printf("%dMB %s flash\n", spi_flash_get_chip_size() / (1024 * 1024),
+    //         (chip_info.features & CHIP_FEATURE_EMB_FLASH) ? "embedded" : "external");
+    // printf("Minimum free heap size: %d bytes\n", esp_get_minimum_free_heap_size());
+
+// // m3ApiRawFunction(m3_arduino_millis)
+// // {
+// //     m3ApiReturnType (uint32_t)
+// //     printf("Millisd\n");
+// //     m3ApiReturn(1);
+// // }
+
+// // m3ApiRawFunction(m3_arduino_delay)
+// // {
+// //     m3ApiGetArg     (uint32_t, ms)
+
+// //     printf("Sleeping for %d\n", ms);
+// //     vTaskDelay(ms / portTICK_PERIOD_MS);
+
+// //     m3ApiSuccess();
+// // }
+
+
+// // m3ApiRawFunction(m3_arduino_pinMode)
+// // {
+// //     m3ApiGetArg     (uint32_t, pin)
+// //     m3ApiGetArg     (uint32_t, mode)
+
+// //     printf("Pinmode %d Pin %d\n", mode, pin);
+
+// //     m3ApiSuccess();
+// // }
+
+// // m3ApiRawFunction(m3_arduino_digitalWrite)
+// // {
+// //     m3ApiGetArg     (uint32_t, pin)
+// //     m3ApiGetArg     (uint32_t, value)
+
+// //     printf("Digital Write %d Pin %d\n", value, pin);
+
+// //     m3ApiSuccess();
+// // }
+
+// // m3ApiRawFunction(m3_arduino_getPinLED)
+// // {
+// //     m3ApiReturnType (uint32_t)
+
+// //     m3ApiReturn(1);
+// // }
+
+// unsigned char fib32_wasm[] = {
+//   0x00, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00, 0x01, 0x06, 0x01, 0x60,
+//   0x01, 0x7f, 0x01, 0x7f, 0x03, 0x02, 0x01, 0x00, 0x07, 0x07, 0x01, 0x03,
+//   0x66, 0x69, 0x62, 0x00, 0x00, 0x0a, 0x1f, 0x01, 0x1d, 0x00, 0x20, 0x00,
+//   0x41, 0x02, 0x49, 0x04, 0x40, 0x20, 0x00, 0x0f, 0x0b, 0x20, 0x00, 0x41,
+//   0x02, 0x6b, 0x10, 0x00, 0x20, 0x00, 0x41, 0x01, 0x6b, 0x10, 0x00, 0x6a,
+//   0x0f, 0x0b
+// };
+// unsigned int fib32_wasm_len = 62;
+
+
+// // m3ApiRawFunction(m3_arduino_print)
+// // {
+// //     m3ApiGetArgMem  (const uint8_t *, buf)
+// //     m3ApiGetArg     (uint32_t,        len)
+
+// //     printf("Memmory output start\n");
+// //     for(int i = 0; i<len; i++) printf("%c\n", *(buf+i));
+// //     printf("Memmory output start\n");
+    
+// //     m3ApiSuccess();
+// // }
+
+// // // #include "WasmController.h"
+
+// #include "wasm3.h"
+
+
+// // unsigned char app_wasm[] = {
+// //     0x00, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00, 0x01, 0x11, 0x04, 0x60,
+// //     0x02, 0x7f, 0x7f, 0x00, 0x60, 0x00, 0x00, 0x60, 0x01, 0x7f, 0x00, 0x60,
+// //     0x00, 0x01, 0x7f, 0x02, 0x4e, 0x04, 0x07, 0x61, 0x72, 0x64, 0x75, 0x69,
+// //     0x6e, 0x6f, 0x09, 0x67, 0x65, 0x74, 0x50, 0x69, 0x6e, 0x4c, 0x45, 0x44,
+// //     0x00, 0x03, 0x07, 0x61, 0x72, 0x64, 0x75, 0x69, 0x6e, 0x6f, 0x07, 0x70,
+// //     0x69, 0x6e, 0x4d, 0x6f, 0x64, 0x65, 0x00, 0x00, 0x07, 0x61, 0x72, 0x64,
+// //     0x75, 0x69, 0x6e, 0x6f, 0x0c, 0x64, 0x69, 0x67, 0x69, 0x74, 0x61, 0x6c,
+// //     0x57, 0x72, 0x69, 0x74, 0x65, 0x00, 0x00, 0x07, 0x61, 0x72, 0x64, 0x75,
+// //     0x69, 0x6e, 0x6f, 0x05, 0x64, 0x65, 0x6c, 0x61, 0x79, 0x00, 0x02, 0x03,
+// //     0x02, 0x01, 0x01, 0x05, 0x03, 0x01, 0x00, 0x01, 0x07, 0x13, 0x02, 0x06,
+// //     0x6d, 0x65, 0x6d, 0x6f, 0x72, 0x79, 0x02, 0x00, 0x06, 0x5f, 0x73, 0x74,
+// //     0x61, 0x72, 0x74, 0x00, 0x04, 0x0a, 0x3a, 0x01, 0x38, 0x01, 0x01, 0x7f,
+// //     0x41, 0x80, 0x08, 0x10, 0x00, 0x22, 0x00, 0x36, 0x02, 0x00, 0x20, 0x00,
+// //     0x41, 0x01, 0x10, 0x01, 0x03, 0x40, 0x41, 0x80, 0x08, 0x28, 0x02, 0x00,
+// //     0x41, 0x01, 0x10, 0x02, 0x41, 0xe4, 0x00, 0x10, 0x03, 0x41, 0x80, 0x08,
+// //     0x28, 0x02, 0x00, 0x41, 0x00, 0x10, 0x02, 0x41, 0x84, 0x07, 0x10, 0x03,
+// //     0x0c, 0x00, 0x0b, 0x00, 0x0b
+// // };
+// // unsigned int app_wasm_len = 197;
