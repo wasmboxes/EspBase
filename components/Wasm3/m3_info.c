@@ -39,7 +39,7 @@ void  m3_PrintM3Info  ()
 
 void *  v_PrintEnvModuleInfo  (IM3Module i_module, u32 * io_index)
 {
-    printf (" module [%u]  name: '%s'; funcs: %d  \n", * io_index++, i_module->name, i_module->numFunctions);
+    printf (" module [%d]  name: '%s'; funcs: %d  \n", * io_index++, i_module->name, i_module->numFunctions);
 
     return NULL;
 }
@@ -49,7 +49,7 @@ void  m3_PrintRuntimeInfo  (IM3Runtime i_runtime)
 {
     printf ("\n-- m3 runtime -------------------------------------------------\n");
 
-    printf (" stack-size: %zu   \n\n", i_runtime->numStackSlots * sizeof (m3slot_t));
+    printf (" stack-size: %d   \n\n", i_runtime->numStackSlots * sizeof (m3slot_t));
 
     u32 moduleIndex = 0;
     ForEachModule (i_runtime, (ModuleVisitor) v_PrintEnvModuleInfo, & moduleIndex);

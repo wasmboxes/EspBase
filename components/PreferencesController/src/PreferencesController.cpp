@@ -164,7 +164,7 @@ namespace Preferences_{
     bool PreferencesController::ExistsI32(NamedPreferencesI32_t type){
         esp_err_t err;
         char type_c[2] = {(char)type, '\0'}; 
-        int tmp_check = 1;
+        int32_t tmp_check = 1;
         err = nvs_get_i32(this->_nvs_handle, type_c, &tmp_check);
         // sleep(1);
 

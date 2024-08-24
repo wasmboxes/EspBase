@@ -5,6 +5,7 @@
 #include <wasm3.h>
 #include <m3_env.h>
 #include <map>
+#include "BoxDevice.h"
 
 namespace WasmController{
 #define WASM_STACK_SLOTS    1024 * 4
@@ -49,6 +50,8 @@ namespace WasmController{
     private:
         // void register 
 
+        static WasmController* instance;
+        BoxDevice::BoxDevices* devices = nullptr;
         int LinkDefaultFunctions(WasmSandbox* box);
         int current_id = 0;
 
@@ -75,6 +78,10 @@ namespace WasmController{
         WASM_STATUS SandboxLinkRawFuntion(int box_id, M3RawCall function, const char* module_name,  const char* function_name, const char* signature);
         WASM_STATUS SandboxFree(int box_id);
 
+        void LinkDevices(BoxDevice::BoxDevices* devices);
+        BoxDevice::BoxDevices* GetDevices();
+
+        static WasmController* GetInstance();
 
         ~WasmController();
     };

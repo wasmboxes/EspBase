@@ -39,6 +39,7 @@ namespace WasmModule
                     document.clear();
                     document.garbageCollect();
                 }
+                
                 printf("\nFree heap : %d\n", esp_get_free_heap_size());
                 response->body = resp;
             }
@@ -83,7 +84,7 @@ namespace WasmModule
                                 for(int fi = 0; fi < module->numFunctions; fi++){
                                     JsonObject js_functionObject = js_functionArray.createNestedObject();
                                     js_functionObject["Index"] = function[fi].index;
-                                    if(function[fi].names != nullptr && function[fi].names[0] != nullptr)
+                                    if(function[fi].names[0] != nullptr) // function[fi].names != nullptr && 
                                         js_functionObject["Name"] = function[fi].names[0];
                                     else js_functionObject["Name"] = "";
 

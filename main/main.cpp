@@ -36,16 +36,16 @@ char *TAG_WIFI_STATION = "wifi station";
 char *TAG = "MAIN";
 char *TAG_OTA_XTASK = "ota";
 
-#define WIFI_SSID "WrRtr"
-#define WIFI_PASS "odjedandoosam"
-
-
-// #define WIFI_SSID "b"
+// #define WIFI_SSID "WrRtr"
 // #define WIFI_PASS "odjedandoosam"
 
 
-#define ESP_WIFI_SSID "MESH"
-#define ESP_WIFI_PASS "12345678" // wifi password >= 8
+#define WIFI_SSID "b"
+#define WIFI_PASS "odjedandoosam"
+
+
+// #define ESP_WIFI_SSID "MESH"
+// #define ESP_WIFI_PASS "12345678" // wifi password >= 8
 
 // #include <iostream>
 // #include "document.h"
@@ -63,6 +63,7 @@ char *TAG_OTA_XTASK = "ota";
 #include "HttpModuleController.h"
 #include "Hardware/HardwareModule.h"
 #include "Wasm/WasmModule.h"
+#include "BoxDevice.h"
 
 #include "ArduinoJson.h"
 #include "WasmController.h"
@@ -82,7 +83,34 @@ extern "C" {
 void app_main(void)
 {
 
+    ledc_timer_config_t ledc_timer;
+    memset(&ledc_timer, 0, sizeof(ledc_timer_config_t));
+    ledc_timer.duty_resolution = LEDC_TIMER_14_BIT; // resolution of PWM duty
+    ledc_timer.freq_hz = 50;                      // frequency of PWM signal
+    ledc_timer.speed_mode = LEDC_LOW_SPEED_MODE;           // timer mode
+    ledc_timer.timer_num = LEDC_TIMER_0;           // timer index
+    ledc_timer_config(&ledc_timer);
+
+    ledc_channel_config_t channel_config;
+    memset(&channel_config, 0, sizeof(ledc_channel_config_t));
+    channel_config.channel    = LEDC_CHANNEL_0;
+    channel_config.duty       = 500;
+    channel_config.gpio_num   = 8;
+    channel_config.speed_mode = LEDC_LOW_SPEED_MODE;
+    channel_config.timer_sel  = LEDC_TIMER_0;
+    channel_config.intr_type = LEDC_INTR_DISABLE;
+    ledc_channel_config(&channel_config);
+
     printf("\nFree heap : %d\n", esp_get_free_heap_size());
+
+    BoxDevice::BoxDevices* devices = new BoxDevice::BoxDevices();
+
+    BoxDevice::BoxDevice_Servo* servo = new BoxDevice::BoxDevice_Servo(BoxDevice::BOX_DEVICE_TYPE::SERVO, 1, 8);
+    
+    devices->Add(servo);
+
+    printf("\n1111111111111Free heap : %d\n", esp_get_free_heap_size());
+
 
     Preferences_::PreferencesController* c_pf = new Preferences_::PreferencesController(); 
     HwController* c_hw = new HwController(c_pf);
@@ -100,6 +128,8 @@ void app_main(void)
     /////////////////////////////////////////
 
     WasmController::WasmController* c_wm = new WasmController::WasmController();
+    c_wm->LinkDevices(devices);
+
     WasmController::WasmSandbox* box = new WasmController::WasmSandbox();
     unsigned int ok = c_wm->SandboxCreate(box,fib32_wasm, fib32_wasm_len, "Fib32");
 
@@ -109,6 +139,11 @@ void app_main(void)
     WasmController::WasmSandbox* box_3 = new WasmController::WasmSandbox();
     ok = c_wm->SandboxCreate(box_3, multiple3_wasm, multiple3_wasm_len, "AddTwo");
 
+    WasmController::WasmSandbox* box_4 = new WasmController::WasmSandbox();
+    ok = c_wm->SandboxCreate(box_4, fib_random, fib_random_len, "FibRandom");
+
+    WasmController::WasmSandbox* box_5 = new WasmController::WasmSandbox();
+    ok = c_wm->SandboxCreate(box_5, moveServo_wasm, moveServo_wasm_len, "MoveServo");
 
     printf("\nBox 1 id : %d  Box 2 id : %d\n", box->id, box_2->id);
     // WasmController::WASM_STATUS status = c_wm->SandboxHasFunction(box_2->id, "fib");
@@ -252,7 +287,6 @@ void app_main(void)
     http_controller_wasm.HttpModuleBase::id = 2;
     http_controller.AddModule((HttpModule::HttpModuleBase*)&http_controller_wasm);
 
-
     tcp_raw_task_handler_http_module->id = (int*)malloc(sizeof(int));
     *tcp_raw_task_handler_http_module->id = 60;
     tcp_raw_task_handler_http_module->service_name = "Http Module\0";
@@ -308,6 +342,47 @@ void app_main(void)
     // printf("WASM RES : %d\n", run_wasm_getString());
 
     // printf("\nFree heap : %d\n", esp_get_free_heap_size());
+
+    // ledc_timer_config_t ledc_timer;
+    // memset(&ledc_timer, 0, sizeof(ledc_timer_config_t));
+    // ledc_timer.duty_resolution = LEDC_TIMER_13_BIT; // resolution of PWM duty
+    // ledc_timer.freq_hz = 50;                      // frequency of PWM signal
+    // ledc_timer.speed_mode = LEDC_LOW_SPEED_MODE;           // timer mode
+    // ledc_timer.timer_num = LEDC_TIMER_0;           // timer index
+    
+    // ledc_timer_config(&ledc_timer);
+
+    // ledc_channel_config_t channel_config;
+    // memset(&channel_config, 0, sizeof(ledc_channel_config_t));
+    // channel_config.channel    = LEDC_CHANNEL_0;
+    // channel_config.duty       = 2000;
+    // channel_config.gpio_num   = 8;
+    // channel_config.speed_mode = LEDC_LOW_SPEED_MODE;
+    // channel_config.timer_sel  = LEDC_TIMER_0;
+    // channel_config.intr_type = LEDC_INTR_DISABLE;
+
+
+
+    // servo->Move(90);
+    // vTaskDelay(2000 / portTICK_PERIOD_MS);
+    // servo->Move(170);
+    // vTaskDelay(2000 / portTICK_PERIOD_MS);
+    // servo->Move(10);
+    // vTaskDelay(2000 / portTICK_PERIOD_MS);
+    // servo->Move(20);
+    // vTaskDelay(2000 / portTICK_PERIOD_MS);
+    // servo->Move(100);
+    // vTaskDelay(2000 / portTICK_PERIOD_MS);
+    // servo->Move(150);
+    // vTaskDelay(2000 / portTICK_PERIOD_MS);
+    // servo->Move(0);
+    // vTaskDelay(2000 / portTICK_PERIOD_MS);
+    // servo->Move(180);
+    // vTaskDelay(2000 / portTICK_PERIOD_MS);
+    // servo->Move(0);
+    // vTaskDelay(2000 / portTICK_PERIOD_MS);
+    // servo->Move(180);
+    // vTaskDelay(2000 / portTICK_PERIOD_MS);
 
     // c_nw->TcpKillHandler(25); //!WARNING
     int DONT_RESTART = 1;
