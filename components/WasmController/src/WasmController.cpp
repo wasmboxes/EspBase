@@ -59,11 +59,11 @@ namespace WasmController{
         ESP_LOGI(TAG,"Linking default functions");
         char* module_name = "env";
 
-        m3_LinkRawFunction (box->runtime->modules, "env", "millis", "v(i)", &m3_delay);
-        m3_LinkRawFunction (box->runtime->modules, "env", "getRandom", "i()", &m3_getRandom);
+        // m3_LinkRawFunction (box->runtime->modules, "env", "millis", "v(i)", &m3_delay);
+        // m3_LinkRawFunction (box->runtime->modules, "env", "getRandom", "i()", &m3_getRandom);
         
-        m3_LinkRawFunction (box->runtime->modules, "env", "DevicePutInt32", "v(ii)", &m3_DevicePutInt32);
-        m3_LinkRawFunction (box->runtime->modules, "env", "DeviceGetInt32", "i(i)", &m3_DeviceGetInt32);
+        // m3_LinkRawFunction (box->runtime->modules, "env", "DevicePutInt32", "v(ii)", &m3_DevicePutInt32);
+        // m3_LinkRawFunction (box->runtime->modules, "env", "DeviceGetInt32", "i(i)", &m3_DeviceGetInt32);
 
         // WasmController::instance->SandboxLinkRawFuntion(box->id, m3_getRandom, module_name, "getRandom", "i()");
         // WasmController::instance->SandboxLinkRawFuntion(box->id, m3_delay, box->moduleName, "delay", "v(i)");
@@ -204,7 +204,6 @@ namespace WasmController{
         va_start(ap, function);
         M3Result result = m3_GetResultsVL(function, ap); 
         va_end(ap);
-        // Function_Release(function);
         if(result) return WASM_STATUS::ERROR;
         return WASM_STATUS::OK;
     }

@@ -2,7 +2,6 @@
 
 namespace HttpParser
 {
-    
 	std::string HttpMessage::Parse(){
 		std::string log = "";
 
@@ -33,25 +32,19 @@ namespace HttpParser
 		return log;
 	};
 
-	
-
 	HttpMessage* HttpMessage::ParseHeaders(std::string& data, int& cur_index){
 		// Process Headers
 		std::string header = "";
 		std::string value  = "";
-		// printf("\n Parsing Headers : %c %c %c . %d", data[cur_index-1], data[cur_index], data[cur_index+1], cur_index);
 		bool fillHeader = true;
 		for(; cur_index < data.size(); ++cur_index) {
 			if(data[cur_index] == '\r') cur_index++;
 			
 			if(data[cur_index] == '\n'){
-				// printf("\nGot Header value : %s\n", value.c_str());
-				// printf(" Parsing Header : %04x %04x %04x . %d\n", data[cur_index-1], data[cur_index], data[cur_index+1], cur_index);
 				headers[header] = value; // end of header
 
 				if(data[cur_index+1] == '\r') cur_index++;
 				if(data[cur_index+1] == '\n'){
-					// printf("\nEnd of header @ %d\n", cur_index);
 					break; // end of headers ... start of body
 				}
 				fillHeader = true;
@@ -164,61 +157,29 @@ namespace HttpParser
 	// ! TODO :
 	// parse multipart
 	HttpMessage* HttpMessage::ParseBody(std::string& data, int& cur_index){
-		// printf("\n\nBODY 2: %s\n\n", data.c_str());
-		// printf("\n\n Index : %d , %d\n\n", cur_index, data.length());
-		
 		if(data.length() - cur_index > 0) body = data.substr(cur_index, data.length() - cur_index); 
-		// printf("BODY 3 %s@@@",body.c_str());
 		return this;
 	}
 
-	
 	HttpMessage* HttpMessage::Parse(std::string data){
 		HttpMessage* message = this;
 		this->error = HttpMessageError::None;
 		int cur_index = 0;
-		// printf("\n\nBODY 1 \n\n");
-
-
-		
-		// int header_spaces = 0;
-		// int header_newline = 0;
-		// int empty_newline = 0;
-		// int data_line = 0;
-		// bool has_data_on_line = false;
-		// int i = 0;
-		// while(data[i] != '\n' && i < data.size()){
-		// 	if(data[i] == '\n' && header_newline == 0) header_newline += 1;	// has header
-		// 	if(data[i] == ' ' && header_newline == 0)  header_spaces += 1; // count spaces
-
-		// 	if(data[i] == '\n' && header_newline == 1 && !has_data_on_line) empty_newline += 1; // no data and not header
-		// 	if(data[i] != '\n' && header_newline == 1) has_data_on_line = true; // data and not header
-
-		// }
-		// if(header_newline == 0){
-
-		// }
 
 		ParseFirstLine(data, cur_index);
 
-		// Check if headers or body
 		if(data[cur_index] == '\n'){ // body and no content length ... empty body and empty headers
 			// printf("\n Http no content\n");
 			return message;
 		}
 
-		// cur_index += 1;
-
 		ParseHeaders(data, cur_index);
-		// printf("\n\nBODY 4 \n\n");
 		cur_index++; // skip first newline
 
 		ParseBody(data, cur_index);
-		// printf("\n\nBODY 5 \n\n");
 		// verify(); // ! TODO
 		return message;
 	}
-
 
 	HttpMessage* HttpMessage::GenerateResponse(HttpContentType content_type, HttpResponseCode response_code, std::string data){
 		this->method = HttpMethod::RESPONSE;

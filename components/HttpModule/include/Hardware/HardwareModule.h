@@ -1,9 +1,5 @@
 #include "HttpModule.h"
 #include "HwController.h"
-#include "document.h"
-#include "writer.h"
-#include "stringbuffer.h"
-#include "rapidjson.h"
 #include "ArduinoJson.h"
 
 
