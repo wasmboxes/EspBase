@@ -10,7 +10,7 @@ Mentor: doc. dr. sc. Nikola Tanković
 
 Rad predstavlja softverski okvir koji omogućuje razvoj softvera neovisno o temeljnoj arhitekturi mikrokontrolera primjenom suvremenih načina programiranja na uređajima s ograničenim računalnim resursima. Osim izvođenja aplikacija, rad će opisati kako se omogućuje orkestriranje raspodijeljenih web aplikacija na uklopljenim sustavima uz pomoć radnog okruženja opisanog u ovom radu. Pokazati će se kako se apstrahiranjem funkcionalnosti temeljnog hardvera mogu razviti univerzalne aplikacije koje omogućuje jednostavno prebacivanje između različitih hardverskih platformi. Razvoj softvera za mikrokontrolere tradicionalno je suočen s izazovima kao što su ograničena procesorska snaga i memorijski kapacitet, zbog čega su potrebna inovativna rješenja za optimalno korištenje resursa. U tom kontekstu, razvojem novog radnog okruženja za mikrokontrolere, istražit će se kako aplikacije u spremnicima i tehnologije poput WebAssemblyja omogućuju razvoj univerzalnih i izoliranih aplikacija koje se mogu učinkovito izvoditi na različitim resursno ograničenim uređajima. 
 
-
+[Završni rad](https://github.com/wasmboxes/EspBase/blob/main/Rad/Zavrsni.pdf)
 
 ## ESPbase framework za orkestraciju raspodijeljenih web aplikacija na uklopljenim sustavima
 
